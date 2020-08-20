@@ -14,8 +14,10 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.core.userdetails.User;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,5 +56,24 @@ public class UsersServiceImpl implements UsersService {
 		usersRepository.save(userEntity);
 		UserDto userDto = modelMapper.map(userEntity, UserDto.class);
 		return userDto;
+	}
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserEntity userEntity = usersRepository.findByEmail(username);
+		
+		if(userEntity == null) throw new UsernameNotFoundException(username);	
+		
+		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), true, true, true, true, new ArrayList<>());
+	}
+	
+	@Override
+	public UserDto getUserDetailsByEmail(String email) { 
+		UserEntity userEntity = usersRepository.findByEmail(email);
+		
+		if(userEntity == null) throw new UsernameNotFoundException(email);
+		
+		
+		return new ModelMapper().map(userEntity, UserDto.class);
 	}
 }
