@@ -32,7 +32,7 @@ public class UsersController {
 	
 	@GetMapping("/status/check")
 	public String status() {
-		return "Working on Port: " + env.getProperty("local.server.port");
+		return "Working on Port: " + env.getProperty("local.server.port") + ", Token= " + env.getProperty("token.secret") ;
 	}
 	
 	
