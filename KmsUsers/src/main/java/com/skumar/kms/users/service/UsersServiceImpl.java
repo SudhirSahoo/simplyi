@@ -6,9 +6,6 @@ import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -28,6 +25,7 @@ import com.skumar.kms.users.dto.UserDto;
 import com.skumar.kms.users.entity.UserEntity;
 import com.skumar.kms.users.model.SubjectResponseModel;
 import com.skumar.kms.users.repository.UsersRepository;
+import com.skumar.kms.users.service.feign.SubjectsServiceClient;
 
 
 //import feign.FeignException;
@@ -38,17 +36,20 @@ public class UsersServiceImpl implements UsersService {
 	
 	UsersRepository usersRepository;
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	RestTemplate restTemplate;
+	//RestTemplate restTemplate;
+	SubjectsServiceClient subjectsServiceClient;
 	Environment environment;
 	
 	@Autowired
 	public UsersServiceImpl(UsersRepository usersRepository,
 			BCryptPasswordEncoder bCryptPasswordEncoder,
-			RestTemplate restTemplate,
+			//RestTemplate restTemplate,
+			SubjectsServiceClient subjectsServiceClient,
 			Environment environment) {
 		this.usersRepository = usersRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.restTemplate= restTemplate;
+		//this.restTemplate= restTemplate;
+		this.subjectsServiceClient = subjectsServiceClient;
 		this.environment= environment;
 	}
 	
@@ -93,12 +94,14 @@ public class UsersServiceImpl implements UsersService {
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
         
         
-        String subjectsUrl = String.format(environment.getProperty("subjects.url"), userId);
+        /*String subjectsUrl = String.format(environment.getProperty("subjects.url"), userId);
         
         ResponseEntity<List<SubjectResponseModel>> subjectListResponse = restTemplate.exchange(subjectsUrl, HttpMethod.GET, null, new ParameterizedTypeReference<List<SubjectResponseModel>>() {
         });
         List<SubjectResponseModel> subjectsList = subjectListResponse.getBody(); 
+        */
         
+        List<SubjectResponseModel> subjectsList = subjectsServiceClient.getSubjectsByUser(userId);
         
         userDto.setSubjects(subjectsList);
 		return userDto;
