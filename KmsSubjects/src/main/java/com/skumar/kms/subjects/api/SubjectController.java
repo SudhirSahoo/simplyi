@@ -20,22 +20,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/kms/user/{id}/subjects")
+@RequestMapping("/kms/subjects")
 public class SubjectController {
 
 	   @Autowired
 	    SubjectService subjectService;
 	    Logger logger = LoggerFactory.getLogger(this.getClass());
 	    @GetMapping( 
+	    		value="/by-user/{userId}",
 	            produces = { 
 	                MediaType.APPLICATION_JSON_VALUE,
 	                MediaType.APPLICATION_XML_VALUE,
 	            })
-	    public List<SubjectResponseModel> userAlbums(@PathVariable String id) {
+	    public List<SubjectResponseModel> subjectsByUser(@PathVariable String userId) {
 
 	        List<SubjectResponseModel> returnValue = new ArrayList<>();
 	        
-	        List<SubjectEntity> subjectEntities = subjectService.getSubjects(id);
+	        List<SubjectEntity> subjectEntities = subjectService.getSubjects(userId);
 	        
 	        if(subjectEntities == null || subjectEntities.isEmpty())
 	        {
