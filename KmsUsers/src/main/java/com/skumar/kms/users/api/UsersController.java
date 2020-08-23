@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skumar.kms.users.dto.UserDto;
 import com.skumar.kms.users.model.CreateUserRequestModel;
 import com.skumar.kms.users.model.CreateUserResponseModel;
+import com.skumar.kms.users.model.UserResponseModel;
 import com.skumar.kms.users.service.UsersService;
 
 @RestController
@@ -55,4 +56,14 @@ public class UsersController {
 		 
 		return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
 	}
+	
+	@GetMapping(value="/{userId}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+    public ResponseEntity<UserResponseModel> getUser(@PathVariable("userId") String userId) {
+       
+        UserDto userDto = usersService.getUserByUserId(userId); 
+        UserResponseModel returnValue = new ModelMapper().map(userDto, UserResponseModel.class);
+        
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
+    }
+	
 }

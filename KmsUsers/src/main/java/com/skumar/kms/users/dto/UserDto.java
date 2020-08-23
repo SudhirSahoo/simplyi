@@ -3,6 +3,8 @@ package com.skumar.kms.users.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.skumar.kms.users.model.SubjectResponseModel;
+
 
 public class UserDto implements Serializable {
 	/**
@@ -16,7 +18,7 @@ public class UserDto implements Serializable {
 	private String password;
 	private String userId;
 	private String encryptedPassword;
-	//private List<AlbumResponseModel> albums;
+	private List<SubjectResponseModel> subjects;
 	
 
 	public String getFirstName() {
@@ -67,11 +69,12 @@ public class UserDto implements Serializable {
 		this.encryptedPassword = encryptedPassword;
 	}
 
-	/*
-	 * public List<AlbumResponseModel> getAlbums() { return albums; }
-	 * 
-	 * public void setAlbums(List<AlbumResponseModel> albums) { this.albums =
-	 * albums; }
-	 */
+	public List<SubjectResponseModel> getSubjects() {
+		return subjects;
+	}
+
+	public void setSubjects(List<SubjectResponseModel> subjects) {
+		this.subjects = subjects;
+	}
 
 }
