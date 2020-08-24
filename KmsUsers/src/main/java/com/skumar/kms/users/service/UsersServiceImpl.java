@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -27,6 +29,8 @@ import com.skumar.kms.users.model.SubjectResponseModel;
 import com.skumar.kms.users.repository.UsersRepository;
 import com.skumar.kms.users.service.feign.SubjectsServiceClient;
 
+import feign.FeignException;
+
 
 //import feign.FeignException;
 
@@ -39,6 +43,8 @@ public class UsersServiceImpl implements UsersService {
 	//RestTemplate restTemplate;
 	SubjectsServiceClient subjectsServiceClient;
 	Environment environment;
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	public UsersServiceImpl(UsersRepository usersRepository,
@@ -101,7 +107,12 @@ public class UsersServiceImpl implements UsersService {
         List<SubjectResponseModel> subjectsList = subjectListResponse.getBody(); 
         */
         
-        List<SubjectResponseModel> subjectsList = subjectsServiceClient.getSubjectsByUser(userId);
+        List<SubjectResponseModel> subjectsList = null;
+		try {
+			subjectsList = subjectsServiceClient.getSubjectsByUser(userId);
+		} catch (FeignException e) {
+			logger.error(e.getLocalizedMessage());
+		}
         
         userDto.setSubjects(subjectsList);
 		return userDto;

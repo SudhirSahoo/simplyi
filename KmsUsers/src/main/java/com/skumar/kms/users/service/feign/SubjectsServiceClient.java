@@ -11,6 +11,6 @@ import com.skumar.kms.users.model.SubjectResponseModel;
 @FeignClient(name="kms-subjects")
 public interface SubjectsServiceClient {
 	
-	@GetMapping("/kms/subjects/by-user/{userId}")
+	@GetMapping("/kms/subjects/by-users/{userId}")
 	public List<SubjectResponseModel> getSubjectsByUser(@PathVariable String userId);
 }
