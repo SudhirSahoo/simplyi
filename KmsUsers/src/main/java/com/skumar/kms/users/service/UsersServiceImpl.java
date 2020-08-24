@@ -107,6 +107,7 @@ public class UsersServiceImpl implements UsersService {
         List<SubjectResponseModel> subjectsList = subjectListResponse.getBody(); 
         */
         
+        logger.info("Before Calling Subjects webservice");
         List<SubjectResponseModel> subjectsList = null;
 		//try {
 			subjectsList = subjectsServiceClient.getSubjectsByUser(userId);
@@ -114,6 +115,7 @@ public class UsersServiceImpl implements UsersService {
 		//	logger.error(e.getLocalizedMessage());
 		//}
         
+		logger.info("After Calling Subjects webservice");
         userDto.setSubjects(subjectsList);
 		return userDto;
 	}

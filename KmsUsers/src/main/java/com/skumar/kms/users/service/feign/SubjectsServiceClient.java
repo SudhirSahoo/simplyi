@@ -21,7 +21,7 @@ import feign.hystrix.FallbackFactory;
 public interface SubjectsServiceClient {
 	
 	//@GetMapping("/kms/subjects/by-user/{userId}")
-	@GetMapping("/kms/subjects/by-userx/{userId}")
+	@GetMapping("/kms/subjects/by-user/{userId}")
 	public List<SubjectResponseModel> getSubjectsByUser(@PathVariable String userId);
 	
 }
