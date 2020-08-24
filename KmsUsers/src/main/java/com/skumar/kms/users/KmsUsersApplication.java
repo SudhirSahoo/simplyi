@@ -2,6 +2,7 @@ package com.skumar.kms.users;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -16,6 +17,7 @@ import feign.Logger;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients
+@EnableCircuitBreaker
 public class KmsUsersApplication {
 
 	public static void main(String[] args) {
@@ -39,6 +41,7 @@ public class KmsUsersApplication {
 	Logger.Level feignLoggerLevel() {
 		return Logger.Level.FULL;
 	}
+	
 	
 	/*@Bean
 	public FeignErrorDecoder getFeignErrorDecoder()	{
