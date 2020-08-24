@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
+import com.skumar.kms.users.error.FeignErrorDecoder;
+
 import feign.Logger;
 
 @SpringBootApplication
@@ -36,5 +38,10 @@ public class KmsUsersApplication {
 	@Bean
 	Logger.Level feignLoggerLevel() {
 		return Logger.Level.FULL;
+	}
+	
+	@Bean
+	public FeignErrorDecoder getFeignErrorDecoder()	{
+		return new FeignErrorDecoder();
 	}
 }

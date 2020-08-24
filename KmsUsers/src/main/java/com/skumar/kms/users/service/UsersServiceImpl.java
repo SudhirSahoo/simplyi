@@ -108,11 +108,11 @@ public class UsersServiceImpl implements UsersService {
         */
         
         List<SubjectResponseModel> subjectsList = null;
-		try {
+		//try {
 			subjectsList = subjectsServiceClient.getSubjectsByUser(userId);
-		} catch (FeignException e) {
-			logger.error(e.getLocalizedMessage());
-		}
+		//} catch (FeignException e) {
+		//	logger.error(e.getLocalizedMessage());
+		//}
         
         userDto.setSubjects(subjectsList);
 		return userDto;
